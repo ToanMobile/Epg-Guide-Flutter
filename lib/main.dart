@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'data/epg.dart';
+
 void main() {
   runApp(new MyApp());
 }
@@ -126,8 +128,6 @@ class _MyAppState extends State<MyApp> {
       "tyb",
       "acb",
       "bca",
-      "enc",
-      "tyb",
       "acb",
       "bca",
       "enc",
@@ -136,17 +136,10 @@ class _MyAppState extends State<MyApp> {
       "bca",
       "enc",
       "tyb",
-      "enc",
-      "tyb",
       "acb",
       "bca",
-      "enc",
-      "tyb",
       "acb",
       "bca",
-      "enc",
-      "enc",
-      "tyb",
       "enc",
       "tyb",
       "acb",
@@ -155,15 +148,35 @@ class _MyAppState extends State<MyApp> {
       "tyb",
       "acb",
       "bca",
-      "enc"
+      "acb",
+      "bca",
+      "enc",
+      "tyb",
+      "acb",
+      "bca",
+      "enc",
+      "tyb",
+      "acb",
+      "bca",
+      "acb",
+      "bca",
+      "enc",
+      "tyb",
+      "acb",
+      "bca",
+      "enc",
+      "tyb",
+      "acb",
+      "bca",
     ];
     return Container(
       width: 100,
+      margin: EdgeInsets.only(top: 60),
       child: ListView.builder(
         controller: _scrollControllerChannel,
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemExtent: 150,
+        itemExtent: 62,
         itemBuilder: (context, position) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +189,7 @@ class _MyAppState extends State<MyApp> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 20.0,
                   ),
                 ),
               ),
@@ -202,48 +215,115 @@ class _MyAppState extends State<MyApp> {
         controller: _scrollControllerVetical,
         scrollDirection: Axis.vertical,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: _createTextColum(50),
         ),
       ),
       onNotification: (ScrollNotification scrollInfo) {
         if (scrollInfo is ScrollStartNotification) {
-
         } else if (scrollInfo is ScrollUpdateNotification) {
           print(_scrollControllerVetical.offset);
           _scrollControllerChannel.jumpTo(_scrollControllerVetical.offset);
-        } else if (scrollInfo is ScrollEndNotification) {
-
-        }
+        } else if (scrollInfo is ScrollEndNotification) {}
       },
     );
   }
 
   List<Widget> _createTextColum(int i) {
     List<Widget> widgets = [];
-    for (int r = 1; r <= i; r++) {
+    for (int r = 0; r <= i; r++) {
       widgets.add(Row(
         children: _createText(50),
       ));
-      //widgets.add(newCell("Row " + r.toString() + " Column " + i.toString()));
     }
     return widgets;
   }
 
   List<Widget> _createText(int i) {
     List<Widget> widgets = [];
-    for (int r = 1; r <= i; r++) {
-      widgets.add(newCell("Row " + r.toString() + " Column " + i.toString()));
+    var listData = _createDataTest();
+    for (int r = 0; r <= i; r++) {
+      listData..shuffle();
+      widgets.add(newCell(listData[r]));
     }
     return widgets;
   }
 
-  Widget newCell(String data) {
-    return CircleAvatar(
-        maxRadius: 80.0,
+  Widget newCell(EPGEntity data) {
+    print(((data.end - data.start)).toDouble().toString());
+    return Container(
+        width: ((data.end - data.start)).toDouble(),
+        height: 55,
+        color: Colors.blueAccent,
+        margin: EdgeInsets.all(3),
         child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Text(data),
-        ));
+            padding: EdgeInsets.all(15.0),
+            child: Center(
+              child: Text(
+                data.title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+            )));
+  }
+
+  List<EPGEntity> _createDataTest() {
+    List<EPGEntity> dataList = List();
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 80, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 80, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 200, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 300, "program6"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program7"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program8"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 70, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 90, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 30, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 70, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 150, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 30, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 150, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 30, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 80, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 30, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 200, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 70, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 150, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 30, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 80, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 40, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 30, "program1"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 100, "program2"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 50, "program3"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 150, "program4"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 80, "program5"));
+    dataList.add(EPGEntity(1574401834307, 1574401834307 + 200, "program6"));
+    return dataList;
   }
 
   @override
